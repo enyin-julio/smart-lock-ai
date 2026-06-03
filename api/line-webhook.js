@@ -7,11 +7,14 @@ export const config = {
 };
 
 const LINE_REPLY_URL = "https://api.line.me/v2/bot/message/reply";
+const CONTACT_EMAIL = "julio@aih.tw";
+const CONTACT_PHONE = "0932-006350";
+const CONTACT_ADDRESS = "台北市內湖區文德路210巷30弄50號";
 
 const BRAND_MENU_MESSAGE = [
-  "UZEEK U8 智能電子鎖",
+  "UZEEK 高端智能電子鎖",
   "",
-  "專為高端住宅、別墅與精品社區打造的智慧入口系統，整合 3D 人臉辨識、掌靜脈、手機 APP 與靜音自動鎖體。",
+  "UZEEK 專為高端住宅、別墅與精品社區打造智慧入口系統，整合 3D 人臉辨識、掌靜脈、手機 APP 與靜音自動鎖體。",
   "",
   "你可以輸入：",
   "1. 價格 - 查看價格區間與預約安裝",
@@ -22,7 +25,7 @@ const BRAND_MENU_MESSAGE = [
 ].join("\n");
 
 const PRICE_MESSAGE = [
-  "UZEEK U8 價格區間",
+  "UZEEK 智能鎖價格區間",
   "",
   "實際價格會依門型、安裝環境與功能配置調整，常見區間如下：",
   "",
@@ -34,7 +37,7 @@ const PRICE_MESSAGE = [
 ].join("\n");
 
 const FEATURE_MESSAGE = [
-  "UZEEK U8 產品功能",
+  "UZEEK 產品功能",
   "",
   "1. 3D人臉辨識",
   "建立臉部立體輪廓，搭配活體檢測，降低照片、影片與面具攻擊風險。",
@@ -50,7 +53,7 @@ const FEATURE_MESSAGE = [
 ].join("\n");
 
 const SENIOR_MESSAGE = [
-  "UZEEK U8 適合長者使用",
+  "UZEEK 適合長者使用",
   "",
   "很適合指紋磨損、手指較乾或指紋較淺的長者。",
   "",
@@ -58,7 +61,7 @@ const SENIOR_MESSAGE = [
 ].join("\n");
 
 const CHILD_MESSAGE = [
-  "UZEEK U8 適合小孩使用",
+  "UZEEK 適合小孩使用",
   "",
   "小孩不需要記密碼，也不用攜帶鑰匙。",
   "",
@@ -66,7 +69,7 @@ const CHILD_MESSAGE = [
 ].join("\n");
 
 const BOOKING_MESSAGE = [
-  "預約 UZEEK U8 安裝諮詢",
+  "預約 UZEEK 安裝諮詢",
   "",
   "請直接回覆以下資料，我們會協助安排智能鎖評估：",
   "",
@@ -74,7 +77,8 @@ const BOOKING_MESSAGE = [
   "電話：",
   "地區：",
   "",
-  "也可以補充門型、社區類型或希望安裝的功能，例如 3D 人臉辨識、掌靜脈或手機 APP 遠端控制。",
+  `也可以直接聯絡：${CONTACT_EMAIL} / ${CONTACT_PHONE}`,
+  CONTACT_ADDRESS,
 ].join("\n");
 
 function sendJson(res, statusCode, data) {
@@ -182,7 +186,7 @@ export default async function handler(req, res) {
     return sendJson(res, 200, {
       ok: true,
       route: "/api/line-webhook",
-      service: "UZEEK U8 LINE Bot webhook",
+      service: "UZEEK LINE Bot webhook",
     });
   }
 

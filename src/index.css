@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  color: #1d1d1f;
-  background: #ffffff;
+  color: #eef7ff;
+  background: #05070d;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -23,7 +23,13 @@ body {
   min-width: 320px;
   margin: 0;
   overflow-x: hidden;
-  background: #ffffff;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    radial-gradient(circle at 18% 8%, rgba(36, 216, 255, 0.18), transparent 26rem),
+    radial-gradient(circle at 82% 38%, rgba(73, 245, 198, 0.1), transparent 24rem),
+    #05070d;
+  background-size: 48px 48px, 48px 48px, auto, auto, auto;
 }
 
 button,
@@ -38,6 +44,6 @@ img {
 }
 
 ::selection {
-  color: #ffffff;
-  background: #1d1d1f;
+  color: #05070d;
+  background: #49f5c6;
 }
