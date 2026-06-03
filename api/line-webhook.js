@@ -8,26 +8,73 @@ export const config = {
 
 const LINE_REPLY_URL = "https://api.line.me/v2/bot/message/reply";
 
-const INTRO_MESSAGE = [
+const BRAND_MENU_MESSAGE = [
   "NOVA LOCK AI 智能電子鎖",
   "",
-  "為高端住宅、別墅與精品社區打造的 AI 智慧入口系統，整合生物辨識、遠端管理與靜音自動鎖體，讓門鎖成為居家安全的第一道智能防線。",
+  "我們專為高端住宅、別墅與精品社區打造 AI 智慧入口系統，整合 3D 人臉辨識、掌靜脈、手機 APP 與靜音自動鎖體。",
+  "",
+  "你可以輸入：",
+  "1. 價格 - 查看價格區間與預約安裝",
+  "2. 功能 - 查看產品特色",
+  "3. 老人 - 長者使用建議",
+  "4. 小孩 - 兒童使用情境",
+  "5. 預約 - 預約安裝諮詢",
+].join("\n");
+
+const PRICE_MESSAGE = [
+  "智能鎖價格區間",
+  "",
+  "NOVA LOCK AI 依照型號、門型、安裝環境與功能配置不同，價格通常落在：",
+  "",
+  "標準智能鎖：約 NT$18,000 - NT$35,000",
+  "高階生物辨識款：約 NT$35,000 - NT$68,000",
+  "豪宅整合方案：需依現場與系統需求報價",
+  "",
+  "如果你想預約安裝評估，請輸入「預約」，並留下姓名、電話、地區。",
 ].join("\n");
 
 const FEATURE_MESSAGE = [
-  "產品特色",
+  "產品功能特色",
   "",
   "1. 3D人臉辨識",
-  "透過立體深度感測與活體檢測，提升辨識速度與防偽能力。",
+  "建立臉部立體輪廓，搭配活體檢測，降低照片、影片與面具攻擊風險。",
   "",
   "2. 掌靜脈",
-  "讀取掌心靜脈特徵，非接觸式辨識，更安全也更衛生。",
+  "讀取掌心靜脈特徵，非接觸、難複製，也適合指紋較不清楚的使用者。",
   "",
   "3. 手機APP",
-  "支援遠端解鎖、訪客授權、開門紀錄與異常通知。",
+  "支援遠端解鎖、訪客授權、開門紀錄、異常提醒與低電量通知。",
   "",
   "4. 靜音自動鎖體",
-  "低噪音馬達與自動上鎖設計，深夜返家不打擾。",
+  "低噪音傳動與自動上鎖設計，夜間返家不打擾家人。",
+].join("\n");
+
+const SENIOR_MESSAGE = [
+  "適合長者使用",
+  "",
+  "NOVA LOCK AI 很適合指紋磨損、手指較乾或指紋較淺的長者。",
+  "",
+  "可使用 3D 人臉辨識或掌靜脈解鎖，不必反覆按指紋，也不需要記密碼。家人也能透過手機 APP 查看門鎖狀態與開門紀錄。",
+].join("\n");
+
+const CHILD_MESSAGE = [
+  "適合小孩使用",
+  "",
+  "小孩不需要記密碼，也不用攜帶鑰匙。",
+  "",
+  "可透過 3D 人臉辨識、掌靜脈或家長手機 APP 授權進出，降低忘記密碼、弄丟鑰匙或被陌生人看見密碼的風險。",
+].join("\n");
+
+const BOOKING_MESSAGE = [
+  "預約安裝諮詢",
+  "",
+  "請直接回覆以下資料，我們會協助安排智能鎖評估：",
+  "",
+  "姓名：",
+  "電話：",
+  "地區：",
+  "",
+  "也可以補充門型、社區類型或希望安裝的功能，例如 3D 人臉辨識、掌靜脈或手機 APP 遠端控制。",
 ].join("\n");
 
 function sendJson(res, statusCode, data) {
@@ -73,54 +120,39 @@ function verifyLineSignature(rawBody, signature, channelSecret) {
 function createReplyMessages(userText = "") {
   const normalizedText = userText.trim().toLowerCase();
 
-  if (normalizedText.includes("特色") || normalizedText.includes("功能")) {
+  if (normalizedText.includes("價格") || normalizedText.includes("多少錢")) {
+    return [{ type: "text", text: PRICE_MESSAGE }];
+  }
+
+  if (normalizedText.includes("功能") || normalizedText.includes("特色")) {
     return [{ type: "text", text: FEATURE_MESSAGE }];
   }
 
   if (
-    normalizedText.includes("app") ||
-    normalizedText.includes("手機") ||
-    normalizedText.includes("遠端")
+    normalizedText.includes("老人") ||
+    normalizedText.includes("長者") ||
+    normalizedText.includes("長輩")
   ) {
-    return [
-      {
-        type: "text",
-        text: "手機 APP 可遠端查看門鎖狀態、建立訪客授權、接收解鎖紀錄與異常通知，適合家庭成員、管家與物業管理情境。",
-      },
-    ];
+    return [{ type: "text", text: SENIOR_MESSAGE }];
   }
 
-  if (normalizedText.includes("3d") || normalizedText.includes("人臉")) {
-    return [
-      {
-        type: "text",
-        text: "3D 人臉辨識會建立臉部立體輪廓，搭配活體檢測降低照片、影片與面具攻擊風險，適合高端住宅入口。",
-      },
-    ];
+  if (
+    normalizedText.includes("小孩") ||
+    normalizedText.includes("兒童") ||
+    normalizedText.includes("孩子")
+  ) {
+    return [{ type: "text", text: CHILD_MESSAGE }];
   }
 
-  if (normalizedText.includes("掌") || normalizedText.includes("靜脈")) {
-    return [
-      {
-        type: "text",
-        text: "掌靜脈識別讀取皮膚下方的靜脈特徵，非接觸、難複製，也能降低指紋磨損或濕手造成的辨識問題。",
-      },
-    ];
+  if (
+    normalizedText.includes("預約") ||
+    normalizedText.includes("安裝") ||
+    normalizedText.includes("諮詢")
+  ) {
+    return [{ type: "text", text: BOOKING_MESSAGE }];
   }
 
-  if (normalizedText.includes("靜音") || normalizedText.includes("自動鎖")) {
-    return [
-      {
-        type: "text",
-        text: "靜音自動鎖體採低噪音傳動與自動上鎖設計，兼顧夜間使用、居住品質與入口安全。",
-      },
-    ];
-  }
-
-  return [
-    { type: "text", text: INTRO_MESSAGE },
-    { type: "text", text: FEATURE_MESSAGE },
-  ];
+  return [{ type: "text", text: BRAND_MENU_MESSAGE }];
 }
 
 async function replyToLine(replyToken, messages, channelAccessToken) {
