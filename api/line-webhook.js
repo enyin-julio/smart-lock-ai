@@ -52,6 +52,25 @@ const FEATURE_MESSAGE = [
   "低噪音傳動與自動上鎖設計，夜間返家不打擾家人。",
 ].join("\n");
 
+const PREORDER_PROMO_MESSAGE = [
+  "【限期預購方案;2026/05/19之前】",
+  "",
+  "守護家庭升級計畫",
+  "",
+  "1. 100元加購1只鋰電池",
+  "2. 安裝補助3,500元",
+  "3. 購買1年全責保固，可用360元再加購1年全責保固。",
+  "",
+  "安心、便利換新計畫",
+  "",
+  "1. 舊的大型智能鎖換新，可折抵3,600元",
+  "2. 100元加購1只鋰電池",
+  "3. 安裝補助3,500元",
+  "4. 購買1年全責保固，可用360元再加購1年全責保固。",
+  "",
+  "想了解 UZEEK U8 詳細功能，請輸入「功能」。",
+  "想預約安裝評估，請輸入「預約」。",
+].join("\n");
 const SENIOR_MESSAGE = [
   "UZEEK 適合長者使用",
   "",
@@ -123,7 +142,11 @@ function verifyLineSignature(rawBody, signature, channelSecret) {
 
 function createReplyMessages(userText = "") {
   const normalizedText = userText.trim().toLowerCase();
+  const promoKeywords = ["優惠", "3d", "人臉", "掌靜脈", "手機", "app", "靜音"];
 
+  if (promoKeywords.some((keyword) => normalizedText.includes(keyword))) {
+    return [{ type: "text", text: PREORDER_PROMO_MESSAGE }];
+  }
   if (normalizedText.includes("價格") || normalizedText.includes("多少錢")) {
     return [{ type: "text", text: PRICE_MESSAGE }];
   }
